@@ -8,5 +8,16 @@ namespace VG
 {
     public class Enemy : Actor
     {
+        [SerializeField] private EnemyInfo enemyInfo;
+
+        public EnemyInfo Info => enemyInfo;
+
+        public UnityEvent onShoot;
+
+        public override void Awake()
+        {
+            base.Awake();
+    
+        }
     }
 }
