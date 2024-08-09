@@ -2,39 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Events;
 
 namespace VG
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class Player : Actor
     {
-        private static Player instance;
+        [SerializeField] private Shooting shootingComponent;
+        [SerializeField] private MovementController movementController;
+        
+        public Shooting ShootingComponent=> shootingComponent;
+        public MovementController MovementController => movementController;
 
-        public static Player Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<Player>();
-                    if (instance == null)
-                    {
-                        instance = new GameObject().AddComponent<Player>();
-                    }
-                }
-                return instance;
-            }
-        }
-
-        public UnityEvent onShoot;
+        private Rigidbody body;
 
         public override void Awake()
         {
             base.Awake();
-    
-            if (instance != null) Destroy(this);
-            DontDestroyOnLoad(this);
-        }
 
+            body = GetComponent<Rigidbody>();
+            movementController = GetComponent<MovementController>();
+            
+            Assert.IsNotNull(MovementController, $"{gameObject} movement component is null");
+            Assert.IsNotNull(shootingComponent, $"{gameObject} launch projectile is null");
+        }
     }
 }
