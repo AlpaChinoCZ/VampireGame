@@ -6,33 +6,33 @@ using UnityEngine.Assertions;
 namespace VG
 {
     /// <summary>
-    /// Camera which follows given object
+    /// Camera which tracking given object
     /// </summary>
-    public class CameraFollow : MonoBehaviour
+    public class TrackingCamera : MonoBehaviour
     {
         [Tooltip("Init position of the camera")]
         [SerializeField] private Transform cameraTransform;
 
         private Vector3 cameraOffset;
-        private Camera camera;
+        private Camera trackingCamera;
 
         private void Awake()
         {
-            camera = Camera.main;
+            trackingCamera = Camera.main;
             
-            Assert.IsNotNull(camera, $"{gameObject} main camera is null");
+            Assert.IsNotNull(trackingCamera, $"{gameObject} main camera is null");
         }
 
         private void Start()
         {
             cameraOffset = cameraTransform.position - transform.position;
-            camera.transform.position = cameraTransform.position;
-            camera.transform.LookAt(transform.position);
+            trackingCamera.transform.position = cameraTransform.position;
+            trackingCamera.transform.LookAt(transform.position);
         }
         
         private void LateUpdate()
         {
-            camera.transform.position =  transform.position + cameraOffset;
+            trackingCamera.transform.position =  transform.position + cameraOffset;
         }
     }
 }
