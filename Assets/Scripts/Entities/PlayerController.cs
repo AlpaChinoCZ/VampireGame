@@ -19,6 +19,7 @@ namespace VG
         private Player player;
         private Rigidbody playerBody;
         private Vector2 mouseLook;
+        private Coroutine fireCoroutine;
         
         public void Init(Player player, Camera camera)
         {
@@ -52,9 +53,13 @@ namespace VG
         
         private void Update()
         {
-            if (RaycastCameraToMouse(out var hitResult, mouseMovementLayers))
+            if (RaycastCameraToMouse(out var hitFireResult, mouseMovementLayers))
             {
-                player.MovementController.SetLookTarget(hitResult.point);
+                player.FireComponent.UpdateFireTarget(hitFireResult.point);
+            }
+            if (RaycastCameraToMouse(out var hitLookResult, mouseMovementLayers))
+            {
+                player.MovementController.SetLookTarget(hitLookResult.point);
             }
         }
 
@@ -65,7 +70,9 @@ namespace VG
             playerInputAction.Player.Move.canceled += SetMoveInput;
             playerInputAction.Player.Jump.started += Jump;
             playerInputAction.Player.MouseLook.performed += MouseLook;
-            playerInputAction.Player.Shoot.started += Shoot;
+            
+            playerInputAction.Player.Shoot.started += StartFiring;
+            playerInputAction.Player.Shoot.canceled += StopFiring;
         }
         
         private void OnDisable()
@@ -74,7 +81,10 @@ namespace VG
             playerInputAction.Player.Move.canceled -= SetMoveInput;
             playerInputAction.Player.Jump.started -= Jump;
             playerInputAction.Player.MouseLook.performed -= MouseLook;
-            playerInputAction.Player.Shoot.started -= Shoot;
+            
+            playerInputAction.Player.Shoot.started -= StartFiring;
+            playerInputAction.Player.Shoot.canceled -= StopFiring;
+            
             playerInputAction.Disable();
         }
         
@@ -93,12 +103,17 @@ namespace VG
             mouseLook = context.ReadValue<Vector2>();
         }
         
-        private void Shoot(InputAction.CallbackContext context)
+        private void StartFiring(InputAction.CallbackContext context)
         {
             if(RaycastCameraToMouse(out RaycastHit hitResult, clickableLayers))
             {
-                player.ShootingComponent.Launch(player.transform.position, hitResult.transform.position);
+                fireCoroutine = StartCoroutine(player.FireComponent.RapidFireCoroutine());
             }
+        }
+        
+        private void StopFiring(InputAction.CallbackContext context)
+        {
+            StopCoroutine(fireCoroutine);
         }
         
         private bool RaycastCameraToMouse(out RaycastHit hitResult, LayerMask layers)

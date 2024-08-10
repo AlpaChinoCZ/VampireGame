@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace VG
 {
-    public class Shooting : MonoBehaviour, ILaunchable
+    public class BasicFire : MonoBehaviour, ILaunchable
     {
         [SerializeField] private Projectile projectile;
         [SerializeField] private LayerMask hitLayer;
@@ -14,7 +14,7 @@ namespace VG
         /// <summary>
         /// Launch projectile from start to end direction
         /// </summary>
-        public void Launch(Vector3 startPosition, Vector3 targetPosition)
+        public virtual void Launch(Vector3 startPosition, Vector3 targetPosition)
         {
             var startDir = new Vector3(startPosition.x, 0, startPosition.z);
             var endDir = new Vector3(targetPosition.x, 0, targetPosition.z);

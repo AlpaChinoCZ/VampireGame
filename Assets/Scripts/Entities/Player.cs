@@ -10,10 +10,10 @@ namespace VG
     [RequireComponent(typeof(Rigidbody))]
     public class Player : Actor
     {
-        [SerializeField] private Shooting shootingComponent;
+        [SerializeField] private PlayerFire fireComponent;
         [SerializeField] private MovementController movementController;
         
-        public Shooting ShootingComponent=> shootingComponent;
+        public PlayerFire FireComponent=> fireComponent;
         public MovementController MovementController => movementController;
 
         private Rigidbody body;
@@ -26,7 +26,7 @@ namespace VG
             movementController = GetComponent<MovementController>();
             
             Assert.IsNotNull(MovementController, $"{gameObject} movement component is null");
-            Assert.IsNotNull(shootingComponent, $"{gameObject} launch projectile is null");
+            Assert.IsNotNull(fireComponent, $"{gameObject} launch projectile is null");
         }
     }
 }
