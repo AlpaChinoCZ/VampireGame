@@ -8,15 +8,18 @@ namespace VG
     public class MovementController : MonoBehaviour, IMove
     {
         [SerializeField] private float movementSpeed = 10f;
-        [SerializeField] private float rotationSpeed = 10f;
+        [SerializeField] private float rotationSpeed = 0.15f;
         [SerializeField] private float jumpHeight = 1f;
+        [SerializeField] private float groundCheckRayDistance = 0.1f;
         [SerializeField] private LayerMask groundLayerMask;
 
         private Rigidbody body;
-        private Collider collider;
+        private CapsuleCollider capsuleCollider;
         private Vector3 velocityVector = new Vector3(0, 0);
         private Vector3 lookTarget = new Vector3(0, 0);
         private Vector3 mouseLook = new Vector3(0, 0);
+        
+        private const float rayStartOffset = 0.1f;
 
         public Vector3 GetVelocity() => body.velocity;
 
@@ -45,7 +48,7 @@ namespace VG
             var rotation = Quaternion.LookRotation(lookPosition);
             //var aimDirection = new Vector3(lookTarget.x, 0f, lookTarget.z);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 0.15f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed);
         }
 
         public void SetLookTarget(Vector3 target)
@@ -53,25 +56,28 @@ namespace VG
             lookTarget = target;
         }
 
+       
         public bool IsGrounded()
         {
-            var radius = collider.bounds.size.x * 0.5f;
-            var yPos = collider.bounds.center.y - radius;
-            var yCenter = yPos + radius;
-            var castCenter = collider.bounds.center;
-            castCenter.y = yCenter;
-            return Physics.SphereCast(castCenter, collider.bounds.size.x * 0.5f, Vector3.down, out RaycastHit hitInf, 0.3f, groundLayerMask);
+            var origin = capsuleCollider.transform.position;
+            origin.y = origin.y - (capsuleCollider.height * 0.5f) + rayStartOffset;
+            return Physics.Raycast(origin, Vector3.down, out RaycastHit hitResult, groundCheckRayDistance, groundLayerMask);
         }
-
+        
         protected virtual void Awake()
         {
             body = GetComponent<Rigidbody>();
-            collider = GetComponent<Collider>();
+            capsuleCollider = GetComponent<CapsuleCollider>();
 
             Assert.IsNotNull(body, $"{gameObject} Rigidbody is null");
-            Assert.IsNotNull(collider, $"{gameObject} collider is null");
+            Assert.IsNotNull(capsuleCollider, $"{gameObject} capsule collider is null");
         }
 
+        protected virtual void Start()
+        {
+            groundCheckRayDistance += rayStartOffset;
+        }
+        
         protected virtual void Update()
         {
             LookAtTarget(Time.deltaTime);
