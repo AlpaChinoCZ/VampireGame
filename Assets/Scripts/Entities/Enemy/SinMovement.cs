@@ -22,7 +22,6 @@ namespace VG
             var yOffset = Mathf.Sin(Time.time * waveFrequency) * waveHeight;
             var newPosition = transform.position;
             newPosition.y = initialPosition.y + yOffset + waveHeight;
-            Debug.Log(newPosition.y);
             transform.position = newPosition;
         }
     }
