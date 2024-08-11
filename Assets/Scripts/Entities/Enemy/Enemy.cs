@@ -16,11 +16,14 @@ namespace VG
         [Tooltip("Target towards which the Enemy will move")]
         [SerializeField] private Transform target;
         [SerializeField] private BasicFire fireComponent;
+
+        public Transform Target => target;
+        public EnemyInfo Info => enemyInfo;
+        public BasicFire FireComponent => fireComponent;
         
         private Rigidbody body;
         private NavMeshAgent navMeshAgent;
 
-        public EnemyInfo Info => enemyInfo;
 
         public override void Awake()
         {
