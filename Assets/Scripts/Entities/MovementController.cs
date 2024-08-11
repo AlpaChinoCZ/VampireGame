@@ -19,7 +19,7 @@ namespace VG
         private Vector3 lookTarget = new Vector3(0, 0);
         private Vector3 mouseLook = new Vector3(0, 0);
         
-        private const float rayStartOffset = 0.1f;
+        private const float RayStartOffset = 0.1f;
 
         public Vector3 GetVelocity() => body.velocity;
 
@@ -41,14 +41,9 @@ namespace VG
             body.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
-        public void LookAtTarget(float deltaTime)
+        public void LookAtTarget()
         {
-            var lookPosition = lookTarget - transform.position;
-            lookPosition.y = 0;
-            var rotation = Quaternion.LookRotation(lookPosition);
-            //var aimDirection = new Vector3(lookTarget.x, 0f, lookTarget.z);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed);
+            transform.SmoothLookAt(lookTarget, rotationSpeed);
         }
 
         public void SetLookTarget(Vector3 target)
@@ -60,7 +55,7 @@ namespace VG
         public bool IsGrounded()
         {
             var origin = capsuleCollider.transform.position;
-            origin.y = origin.y - (capsuleCollider.height * 0.5f) + rayStartOffset;
+            origin.y = origin.y - (capsuleCollider.height * 0.5f) + RayStartOffset;
             return Physics.Raycast(origin, Vector3.down, out RaycastHit hitResult, groundCheckRayDistance, groundLayerMask);
         }
         
@@ -75,12 +70,12 @@ namespace VG
 
         protected virtual void Start()
         {
-            groundCheckRayDistance += rayStartOffset;
+            groundCheckRayDistance += RayStartOffset;
         }
         
         protected virtual void Update()
         {
-            LookAtTarget(Time.deltaTime);
+            LookAtTarget();
         }
 
         protected virtual void FixedUpdate()
