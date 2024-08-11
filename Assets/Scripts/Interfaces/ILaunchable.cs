@@ -6,6 +6,6 @@ namespace VG
     {
         Transform StartPosition { get; }
 
-        void Launch(Vector3 targetPosition);
+        GameObject Launch(Vector3 targetPosition);
     }
 }

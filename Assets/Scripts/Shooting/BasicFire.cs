@@ -10,14 +10,15 @@ namespace VG
     {
         [SerializeField] private Projectile projectile;
         [SerializeField] private Transform startPosition;
-        [SerializeField] private LayerMask hitLayer;
+        [Tooltip("Layer which will projectile ignore")]
+        [SerializeField] private LayerMask excludeLayer;
         
         public Transform StartPosition => startPosition;
         
         /// <summary>
         /// Launch projectile from start to end direction
         /// </summary>
-        public void Launch(Vector3 targetPosition)
+        public GameObject Launch(Vector3 targetPosition)
         {
             var position = startPosition.position;
             var startDir = new Vector3(position.x, 0, position.z);
@@ -25,7 +26,8 @@ namespace VG
             var projectilePrefab = Instantiate(projectile, position, Quaternion.identity);
             var direction = endDir - startDir;
             
-            projectilePrefab.Init(direction, hitLayer);
+            projectilePrefab.Init(direction, excludeLayer);
+            return projectilePrefab.gameObject;
         }
     }
 }
