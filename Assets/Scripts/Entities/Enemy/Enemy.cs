@@ -12,31 +12,22 @@ namespace VG
     public class Enemy : Actor
     {
         [SerializeField] private EnemyInfo enemyInfo;
-        [Tooltip("Target towards which the Enemy will move")]
-        [SerializeField] private Transform target;
         [SerializeField] private BasicFire fireComponent;
+        [SerializeField] private EnemyController enemyController;
 
-        public Transform Target => target;
         public EnemyInfo Info => enemyInfo;
         public BasicFire FireComponent => fireComponent;
+        public EnemyController EnemyController => enemyController;
         
         private Rigidbody body;
-
-
+        
         public override void Awake()
         {
             base.Awake();
 
             body = GetComponent<Rigidbody>();
-
-            if (target == null)
-            {
-                var player = FindObjectOfType(typeof(Player)) as GameObject;
-                target = player != null ? player.transform : null;
-            }
             
             Assert.IsNotNull(enemyInfo, $"{gameObject} have to have Enemy Info");
-            Assert.IsNotNull(target, $"{gameObject} have to have Target");
             Assert.IsNotNull(fireComponent, $"{gameObject} have to have Fire Component");
         }
     }

@@ -11,9 +11,10 @@ namespace VG
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour
     {
-        
         [Tooltip("How often the enemy will be looking for the target's position - is seconds")]
         [SerializeField] private float targetCheckInterval = 0.1f;
+        [Tooltip("Target towards which the Enemy will move")]
+        [SerializeField] private Transform target;
         
         private Enemy enemy;
         private NavMeshAgent navMeshAgent;
@@ -26,7 +27,13 @@ namespace VG
         {
             enemy = GetComponent<Enemy>();
             navMeshAgent = GetComponent<NavMeshAgent>();
-            
+
+            if (target == null)
+            {
+                var player = GameManager.Instance.Player;
+                target = player != null ? player.transform : null;
+            }
+            Assert.IsNotNull(target, $"{gameObject} have to have Target");
             Assert.IsNotNull(enemy, $"{gameObject} have to have Enemy component");
             Assert.IsTrue(targetCheckInterval > 0, $"{gameObject} Target Check Interval must be bigger than 0s");
 
@@ -43,9 +50,9 @@ namespace VG
             }
         }
         
-        protected void OnEnable()
+        protected virtual void OnEnable()
         {
-            navMeshAgent.SetDestination(enemy.Target.transform.position);
+            navMeshAgent.SetDestination(target.transform.position);
             StartCoroutine(CheckTargetPositionCoroutine());
         }
 
@@ -53,13 +60,13 @@ namespace VG
         {
             StopAllCoroutines();
         }
-        private IEnumerator FiringCoroutine()
+        protected virtual IEnumerator FiringCoroutine()
         {
             isFiring = true;
 
             while (IsInFireDistance())
             {
-                enemy.FireComponent.Launch(enemy.Target.position);
+                enemy.FireComponent.Launch(target.position);
                 yield return rapidFireWait;
             }
 
@@ -70,14 +77,14 @@ namespace VG
         {
             while (true)
             {
-                navMeshAgent.SetDestination(enemy.Target.transform.position);
+                navMeshAgent.SetDestination(target.transform.position);
                 yield return waitForCheck;
             }
         }
 
         private bool IsInFireDistance()
         {
-            return Vector3.Distance(transform.position, enemy.Target.position) <= enemy.Info.StartFireDistance;
+            return Vector3.Distance(transform.position, target.position) <= enemy.Info.StartFireDistance;
         }
     }
 }
