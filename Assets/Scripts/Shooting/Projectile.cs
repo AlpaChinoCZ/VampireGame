@@ -23,6 +23,7 @@ namespace VG
             this.hitLayer = hitLayer;
             transform.rotation = Quaternion.LookRotation(direction);
             rgBody.AddForce(projectileInfo.Speed * direction, ForceMode.Impulse);
+            Destroy(this, projectileInfo.MaxLifeTime);
         }
         
         protected virtual void OnTriggerEnter(Collider other)

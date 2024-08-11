@@ -11,8 +11,11 @@ namespace VG
         [SerializeField] private float damage = 5f;
         [Tooltip("Speed of the projectile")]
         [SerializeField] private float speed = 50f;
+        [Tooltip("Maximum life time of the projectile in seconds")]
+        [SerializeField] private float maxLifeTime = 10f;
         
         public float Damage => damage;
         public float Speed => speed;
+        public float MaxLifeTime => maxLifeTime;
     }
 }
