@@ -19,6 +19,7 @@ namespace VG
             enemy = GetComponent<Enemy>();
             
             Assert.IsNotNull(enemy, $"{gameObject} has no Enemy component");
+            
             rapidFireWait = new WaitForSeconds( 1f / enemy.Info.FireRate);
         }
 

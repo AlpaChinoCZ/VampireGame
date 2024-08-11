@@ -9,20 +9,20 @@ using UnityEngine.Events;
 namespace VG
 {
     [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(NavMeshAgent))]
     public class Enemy : Actor
     {
         [SerializeField] private EnemyInfo enemyInfo;
         [Tooltip("Target towards which the Enemy will move")]
         [SerializeField] private Transform target;
         [SerializeField] private BasicFire fireComponent;
+        [SerializeField] private EnemyMovementController movementComponent;
 
         public Transform Target => target;
         public EnemyInfo Info => enemyInfo;
         public BasicFire FireComponent => fireComponent;
+        public EnemyMovementController EnemyMovementController => movementComponent;
         
         private Rigidbody body;
-        private NavMeshAgent navMeshAgent;
 
 
         public override void Awake()
@@ -30,7 +30,7 @@ namespace VG
             base.Awake();
 
             body = GetComponent<Rigidbody>();
-            navMeshAgent = GetComponent<NavMeshAgent>();
+            movementComponent = GetComponent<EnemyMovementController>();
 
             if (target == null)
             {
@@ -39,13 +39,9 @@ namespace VG
             }
             
             Assert.IsNotNull(enemyInfo, $"{gameObject} have to have Enemy Info");
-            Assert.IsNotNull(target, $"{gameObject} have to have target");
-            Assert.IsNotNull(fireComponent, $"{gameObject} have to Fire Component");
-        }
-
-        public void Start()
-        {
-            navMeshAgent.SetDestination(target.transform.position);
+            Assert.IsNotNull(target, $"{gameObject} have to have Target");
+            Assert.IsNotNull(fireComponent, $"{gameObject} have to have Fire Component");
+            Assert.IsNotNull(movementComponent, $"{gameObject} have to have Enemy Movement Component");
         }
     }
 }
