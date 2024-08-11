@@ -19,7 +19,6 @@ namespace VG
         private Player player;
         private Rigidbody playerBody;
         private Vector2 mouseLook;
-        private Coroutine fireCoroutine;
         
         public void Init(Player player, Camera camera)
         {
@@ -45,9 +44,7 @@ namespace VG
                 { ActionMap.Player, "Player" },
                 { ActionMap.UI, "UI" }
             };
-
-            
-            
+          
             playerInputAction = new PlayerInputAction();
         }
         
