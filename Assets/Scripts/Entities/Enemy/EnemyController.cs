@@ -17,7 +17,9 @@ namespace VG
         [Tooltip("Target towards which the Enemy will move \nIf the target is empty, the player class is used instead")]
         [SerializeField] private Transform target;
         [SerializeField] private float rotationSpeed = 0.15f;
-        
+
+        public NavMeshAgent Agent => navMeshAgent;
+            
         private Enemy enemy;
         private NavMeshAgent navMeshAgent;
         private WaitForSeconds rapidFireWait;
