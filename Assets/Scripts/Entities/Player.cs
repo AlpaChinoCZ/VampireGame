@@ -10,10 +10,10 @@ namespace VG
     [RequireComponent(typeof(Rigidbody))]
     public class Player : Actor
     {
-        [SerializeField] private PlayerFire fireComponent;
+        [SerializeField] private BasicFire fireComponent;
         [SerializeField] private MovementController movementController;
         
-        public PlayerFire FireComponent=> fireComponent;
+        public BasicFire FireComponent=> fireComponent;
         public MovementController MovementController => movementController;
 
         private Rigidbody body;

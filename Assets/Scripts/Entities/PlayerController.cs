@@ -53,10 +53,6 @@ namespace VG
         
         private void Update()
         {
-            if (RaycastCameraToMouse(out var hitFireResult, mouseMovementLayers))
-            {
-                player.FireComponent.UpdateFireTarget(hitFireResult.point);
-            }
             if (RaycastCameraToMouse(out var hitLookResult, mouseMovementLayers))
             {
                 player.MovementController.SetLookTarget(hitLookResult.point);
@@ -71,8 +67,7 @@ namespace VG
             playerInputAction.Player.Jump.started += Jump;
             playerInputAction.Player.MouseLook.performed += MouseLook;
             
-            playerInputAction.Player.Shoot.started += StartFiring;
-            playerInputAction.Player.Shoot.canceled += StopFiring;
+            playerInputAction.Player.Shoot.started += Fire;
         }
         
         private void OnDisable()
@@ -82,8 +77,7 @@ namespace VG
             playerInputAction.Player.Jump.started -= Jump;
             playerInputAction.Player.MouseLook.performed -= MouseLook;
             
-            playerInputAction.Player.Shoot.started -= StartFiring;
-            playerInputAction.Player.Shoot.canceled -= StopFiring;
+            playerInputAction.Player.Shoot.started -= Fire;
             
             playerInputAction.Disable();
         }
@@ -103,17 +97,12 @@ namespace VG
             mouseLook = context.ReadValue<Vector2>();
         }
         
-        private void StartFiring(InputAction.CallbackContext context)
+        private void Fire(InputAction.CallbackContext context)
         {
-            if(RaycastCameraToMouse(out RaycastHit hitResult, clickableLayers))
+            if (RaycastCameraToMouse(out var hitFireResult, clickableLayers))
             {
-                fireCoroutine = StartCoroutine(player.FireComponent.RapidFireCoroutine());
+                player.FireComponent.Launch(hitFireResult.transform.position);
             }
-        }
-        
-        private void StopFiring(InputAction.CallbackContext context)
-        {
-            StopCoroutine(fireCoroutine);
         }
         
         private bool RaycastCameraToMouse(out RaycastHit hitResult, LayerMask layers)
