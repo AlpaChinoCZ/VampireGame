@@ -23,7 +23,7 @@ namespace VG
             this.hitLayer = hitLayer;
             transform.rotation = Quaternion.LookRotation(direction);
             rgBody.AddForce(projectileInfo.Speed * direction, ForceMode.Impulse);
-            Destroy(this, projectileInfo.MaxLifeTime);
+            Destroy(gameObject, projectileInfo.MaxLifeTime);
         }
         
         protected virtual void OnTriggerEnter(Collider other)
@@ -32,13 +32,13 @@ namespace VG
             if (damageable != null)
             {
                 damageable.ApplyDamage(projectileInfo.Damage);
-                Destroy(this);
+                Destroy(gameObject);
                 return;
             }
 
             if (other.gameObject.layer == hitLayer)
             {
-                Destroy(this);
+                Destroy(gameObject);
             }
         }
         
