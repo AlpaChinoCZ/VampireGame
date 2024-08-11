@@ -19,6 +19,9 @@ namespace VG
         private Player player;
         private Rigidbody playerBody;
         private Vector2 mouseLook;
+
+        private WaitForSeconds rapidFireWait;
+        private bool isFiring = false;
         
         public void Init(Player player, Camera camera)
         {
@@ -44,7 +47,7 @@ namespace VG
                 { ActionMap.Player, "Player" },
                 { ActionMap.UI, "UI" }
             };
-          
+            rapidFireWait = new WaitForSeconds(1f / player.FireRate);
             playerInputAction = new PlayerInputAction();
         }
         
@@ -53,6 +56,11 @@ namespace VG
             if (RaycastCameraToMouse(out var hitLookResult, mouseMovementLayers))
             {
                 player.MovementController.SetLookTarget(hitLookResult.point);
+            }
+
+            if (player.NearestObjects.Count > 0 && !isFiring)
+            {
+                StartCoroutine(RapidFireCoroutine());
             }
         }
 
@@ -77,6 +85,8 @@ namespace VG
             playerInputAction.Player.Shoot.started -= Fire;
             
             playerInputAction.Disable();
+            
+            StopAllCoroutines();
         }
         
         private void SetMoveInput(InputAction.CallbackContext context)
@@ -101,6 +111,19 @@ namespace VG
                 player.FireComponent.Launch(hitFireResult.transform.position);
             }
         }
+
+        private IEnumerator RapidFireCoroutine()
+        {
+            isFiring = true;
+            
+            while (player.NearestObjects.Count > 0)
+            {
+                player.FireComponent.Launch(player.GetNearestObject().position);
+                yield return rapidFireWait;
+            }
+
+            isFiring = false;
+        }
         
         private bool RaycastCameraToMouse(out RaycastHit hitResult, LayerMask layers)
         {
@@ -108,6 +131,8 @@ namespace VG
             return Physics.Raycast(mouseRay, out hitResult, Mathf.Infinity, layers);
         }
 
+        
+        
         public enum ActionMap
         {
             UI,

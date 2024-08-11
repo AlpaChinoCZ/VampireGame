@@ -31,7 +31,6 @@ namespace VG
         
         protected virtual void OnCollisionEnter(Collision other)
         {
-            Debug.Log("Hit");
             var damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {

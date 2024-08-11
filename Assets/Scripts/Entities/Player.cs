@@ -8,22 +8,22 @@ using UnityEngine.Events;
 namespace VG
 {
     [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(SphereCollider))]
     public class Player : Actor
     {
+        [Tooltip("Fire rate which is applied if an enemy is nearby")]
+        [SerializeField] private float fireRate = 2f;
         [SerializeField] private BasicFire fireComponent;
         [SerializeField] private MovementController movementController;
+        [SerializeField] private SphereCollider sphereTrigger;
         [SerializeField] private LayerMask nearestObjectLayer;
         
         public BasicFire FireComponent=> fireComponent;
         public MovementController MovementController => movementController;
-        public HashSet<GameObject> NearestObjects => nearestObjects;
+        public HashSet<Transform> NearestObjects => nearestObjects;
+        public float FireRate => fireRate;
         
-        
-
         private Rigidbody body;
-        private SphereCollider sphereTrigger;
-        private HashSet<GameObject> nearestObjects;
+        private HashSet<Transform> nearestObjects;
 
         public override void Awake()
         {
@@ -31,24 +31,46 @@ namespace VG
 
             body = GetComponent<Rigidbody>();
             movementController = GetComponent<MovementController>();
-            sphereTrigger = GetComponent<SphereCollider>();
-            sphereTrigger.isTrigger = true;
-            nearestObjects = new HashSet<GameObject>();
+            nearestObjects = new HashSet<Transform>();
              
+            Assert.IsNotNull(sphereTrigger, $"{gameObject} sphere trigger is null");
             Assert.IsNotNull(MovementController, $"{gameObject} movement component is null");
             Assert.IsNotNull(fireComponent, $"{gameObject} launch projectile is null");
+            Assert.IsTrue(fireRate > 0, $"{gameObject} Fire Rate must be bigger than 0s");
+            
+            sphereTrigger.isTrigger = true;
         }
 
         public virtual void OnTriggerEnter(Collider other)
         {
             if (nearestObjectLayer.Contains(other.gameObject.layer))
             {
-                nearestObjects.Add(other.gameObject);
+                nearestObjects.Add(other.gameObject.transform);
             }
         }
+        
         public virtual void OnTriggerExit(Collider other)
         {
-            nearestObjects.Remove(other.gameObject);
+            nearestObjects.Remove(other.gameObject.transform);
+        }
+
+        public Transform GetNearestObject()
+        {
+            var currentPosition = transform.position;
+            Transform closesTransform = null;
+            var oldDistance = Mathf.Infinity;
+            
+            foreach (var tr in nearestObjects)
+            {
+                var dist = Vector3.Distance(currentPosition, tr.position);
+                if (dist < oldDistance)
+                {
+                    closesTransform = tr;
+                    oldDistance = dist;
+                }
+            }
+
+            return closesTransform;
         }
     }
 }
