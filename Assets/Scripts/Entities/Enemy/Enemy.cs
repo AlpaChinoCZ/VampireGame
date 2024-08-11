@@ -37,6 +37,7 @@ namespace VG
             
             Assert.IsNotNull(enemyInfo, $"{gameObject} have to have Enemy Info");
             Assert.IsNotNull(target, $"{gameObject} have to have target");
+            Assert.IsNotNull(fireComponent, $"{gameObject} have to Fire Component");
         }
 
         public void Start()
