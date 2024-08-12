@@ -16,7 +16,7 @@ namespace VG
         
         private Rigidbody body;
         
-        public override void Awake()
+        protected override void Awake()
         {
             base.Awake();
 
