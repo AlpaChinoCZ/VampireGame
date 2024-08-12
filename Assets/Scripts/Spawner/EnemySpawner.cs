@@ -10,11 +10,11 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Vector2 randomSpawnInterval = new Vector2(2f, 5f);
     
-    private SpawnPoint[] spawnObjects;
+    private EnemySpawnPoint[] spawnObjects;
     
     private void Start()
     {
-        spawnObjects = FindObjectsOfType<SpawnPoint>();
+        spawnObjects = FindObjectsOfType<EnemySpawnPoint>();
         
         
         if (spawnObjects.Length > 0)
@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private Enemy SpawnEnemy(SpawnPoint spawnPoint)
+    private Enemy SpawnEnemy(EnemySpawnPoint spawnPoint)
     {
         NavMeshHit hitResult;
         if (NavMesh.SamplePosition(spawnPoint.transform.position, out hitResult, 1.0f, NavMesh.AllAreas))
@@ -49,7 +49,7 @@ public class EnemySpawner : MonoBehaviour
         return null;
     }
 
-    private Enemy GetRandomEnemy(SpawnPoint spawnPoint)
+    private Enemy GetRandomEnemy(EnemySpawnPoint spawnPoint)
     {
         return spawnPoint.Enemies[Random.Range(0, spawnPoint.Enemies.Length)];
     }

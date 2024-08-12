@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -5,9 +6,10 @@ namespace VG
 {
     public abstract class GameManager : MonoBehaviour
     {
-        [SerializeField] private UiManager uiManager;
-        [SerializeField] private PlayerController playerController;
-        [SerializeField] private Player player;
+        [Tooltip("Prefab which will be instantiate")]
+        [SerializeField] private PlayerController playerControllerSpawnPrefab;
+        [Tooltip("Prefab which will be instantiate")]
+        [SerializeField] private Player playerSpawnPrefab;
         
         public static GameManager Instance
         {
@@ -25,10 +27,34 @@ namespace VG
                 return instance;
             }
         }
-        public UiManager UiManager => uiManager;
-        public PlayerController PlayerController => playerController;
-        public Player Player => player;
         
+        /// <summary>
+        ///  PlayerController prefab in scene
+        /// </summary>
+        public PlayerController PlayerController
+        { 
+            get => playerController;
+            protected set => playerController = value;
+        }
+        /// <summary>
+        ///  PlayerController prefab which will be instantiate on spawn
+        /// </summary>
+        public PlayerController PlayerControllerSpawnPrefab => playerControllerSpawnPrefab;
+        /// <summary>
+        ///  Player spawned in scene
+        /// </summary>
+        public Player Player 
+        { 
+            get => player;
+            protected set => player = value;
+        }
+        /// <summary>
+        ///  Player prefab which will be instantiate on spawn
+        /// </summary>
+        public Player PlayerSpawnPrefab => playerSpawnPrefab;
+        
+        private PlayerController playerController;
+        private Player player;
         private static GameManager instance;
         
         protected virtual void Awake()
@@ -36,18 +62,8 @@ namespace VG
             if (instance != null) Destroy(this);
             DontDestroyOnLoad(this);
             
-            SetupManager();
-            
-            //Assert.IsNotNull(uiManager, $"{gameObject} has no UI Manager");
-            Assert.IsNotNull(playerController, $"{gameObject} has no Player Controller");
-            Assert.IsNotNull(player, $"{gameObject} has no Player");
-        }
-
-        private void SetupManager()
-        {
-            PlayerController.Init(player, Camera.main);
-            
-            Assert.IsNotNull(Camera.main, $"{gameObject} Main Player Camera is null.");
+            Assert.IsNotNull(playerControllerSpawnPrefab, $"{gameObject} has no Player Controller");
+            Assert.IsNotNull(playerSpawnPrefab, $"{gameObject} has no Player Prefab");
         }
     }
 }

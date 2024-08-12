@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -22,11 +23,23 @@ namespace VG
 
         private WaitForSeconds rapidFireWait;
         private bool isFiring = false;
+
+        public void InitInput()
+        {
+            playerInputAction ??= new PlayerInputAction();
+            actionMaps = new Dictionary<ActionMap, string>
+            {
+                { ActionMap.Player, "Player" },
+                { ActionMap.UI, "UI" }
+            };
+            AddInputListeners();
+        }
         
         public void Init(Player player, Camera camera)
         {
             this.player = player;
             playerCamera = camera;
+            rapidFireWait = new WaitForSeconds(1f / player.FireRate);
         }
         
         public void SwitchActionMap(ActionMap newActionMap)
@@ -36,19 +49,13 @@ namespace VG
                 map.Disable();
             }
 
-            playerInputAction.FindAction(actionMaps[newActionMap])?.Enable();
+            var actiomap = actionMaps[newActionMap];
+            playerInputAction.asset.FindActionMap(actiomap).Enable();
         }
         
         private void Awake()
         {
             DontDestroyOnLoad(this);
-            actionMaps = new Dictionary<ActionMap, string>
-            {
-                { ActionMap.Player, "Player" },
-                { ActionMap.UI, "UI" }
-            };
-            rapidFireWait = new WaitForSeconds(1f / player.FireRate);
-            playerInputAction = new PlayerInputAction();
         }
         
         private void Update()
@@ -66,27 +73,39 @@ namespace VG
 
         private void OnEnable()
         {
-            playerInputAction.Enable();
-            playerInputAction.Player.Move.performed += SetMoveInput;
-            playerInputAction.Player.Move.canceled += SetMoveInput;
-            playerInputAction.Player.Jump.started += Jump;
-            playerInputAction.Player.MouseLook.performed += MouseLook;
-            
-            playerInputAction.Player.Shoot.started += Fire;
+            AddInputListeners();
         }
         
         private void OnDisable()
         {
-            playerInputAction.Player.Move.performed -= SetMoveInput;
-            playerInputAction.Player.Move.canceled -= SetMoveInput;
-            playerInputAction.Player.Jump.started -= Jump;
-            playerInputAction.Player.MouseLook.performed -= MouseLook;
-            
-            playerInputAction.Player.Shoot.started -= Fire;
-            
-            playerInputAction.Disable();
-            
+            RemoveInputListeners();
             StopAllCoroutines();
+        }
+
+        private void AddInputListeners()
+        {
+            if (playerInputAction != null)
+            {
+                playerInputAction.Player.Move.performed += SetMoveInput;
+                playerInputAction.Player.Move.canceled += SetMoveInput;
+                playerInputAction.Player.Jump.started += Jump;
+                playerInputAction.Player.MouseLook.performed += MouseLook;
+            
+                playerInputAction.Player.Shoot.started += Fire;
+            }
+        }
+
+        private void RemoveInputListeners()
+        {
+            if (playerInputAction != null)
+            {
+                playerInputAction.Player.Move.performed -= SetMoveInput;
+                playerInputAction.Player.Move.canceled -= SetMoveInput;
+                playerInputAction.Player.Jump.started -= Jump;
+                playerInputAction.Player.MouseLook.performed -= MouseLook;
+            
+                playerInputAction.Player.Shoot.started -= Fire;
+            }
         }
         
         private void SetMoveInput(InputAction.CallbackContext context)

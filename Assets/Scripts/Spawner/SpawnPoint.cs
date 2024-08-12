@@ -10,20 +10,14 @@ namespace VG
     [DisallowMultipleComponent]
     public class SpawnPoint : MonoBehaviour
     {
-        [SerializeField] private Enemy[] enemies;
         [SerializeField] private float spawnRadius = 1f;
+        [SerializeField] private Color color = Color.green;
 
-        public Enemy[] Enemies => enemies;
         public float SpawnRadius => spawnRadius;
 
-        private void Awake()
+        protected virtual void OnDrawGizmos()
         {
-            Assert.IsTrue(enemies.Length > 0, $"{gameObject} have no enemies to spawn");
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.yellow;
+            Gizmos.color = color;
             Gizmos.DrawSphere(transform.position, spawnRadius);
         }
     }
