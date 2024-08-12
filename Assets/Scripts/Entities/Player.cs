@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -40,7 +41,7 @@ namespace VG
             
             sphereTrigger.isTrigger = true;
         }
-
+        
         public virtual void OnTriggerEnter(Collider other)
         {
             if (nearestObjectLayer.Contains(other.gameObject.layer))
@@ -71,6 +72,16 @@ namespace VG
             }
 
             return closesTransform;
+        }
+        
+        private void OnEnable()
+        {
+            Health.onDead.AddListener(VgGameManager.Instance.OnPlayerDied);
+        }
+        
+        private void OnDisable()
+        {
+            Health.onDead.RemoveListener(VgGameManager.Instance.OnPlayerDied);
         }
     }
 }

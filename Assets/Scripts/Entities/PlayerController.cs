@@ -24,6 +24,9 @@ namespace VG
         private WaitForSeconds rapidFireWait;
         private bool isFiring = false;
 
+        /// <summary>
+        /// Initialize Player controller input system
+        /// </summary>
         public void InitInput()
         {
             playerInputAction ??= new PlayerInputAction();
@@ -34,7 +37,9 @@ namespace VG
             };
             AddInputListeners();
         }
-        
+        /// <summary>
+        /// Initialize player controller components
+        /// </summary>
         public void Init(Player player, Camera camera)
         {
             this.player = player;
@@ -42,6 +47,9 @@ namespace VG
             rapidFireWait = new WaitForSeconds(1f / player.FireRate);
         }
         
+        /// <summary>
+        /// Switch to givet action map - only one is enabled
+        /// </summary>
         public void SwitchActionMap(ActionMap newActionMap)
         {
             foreach (var map in playerInputAction.asset.actionMaps)
@@ -149,8 +157,6 @@ namespace VG
             var mouseRay = playerCamera.ScreenPointToRay(mouseLook);
             return Physics.Raycast(mouseRay, out hitResult, Mathf.Infinity, layers);
         }
-
-        
         
         public enum ActionMap
         {

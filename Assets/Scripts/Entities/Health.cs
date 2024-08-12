@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace VG
 {
@@ -10,10 +11,13 @@ namespace VG
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float currentHealth = 100f;
 
-        public event Action OnDamaged;
-        public event Action OnHealthChanged;
-        public event Action OnHealed;
-        public event Action OnDead;
+        public UnityEvent onHealthChanged;
+        public UnityEvent onHealed;
+        public UnityEvent onDead;
+        public UnityEvent OnHealthChanged => onHealthChanged;
+        public UnityEvent OnHealed => onHealed;
+        public UnityEvent OnDead => onDead;
+        
         public float MaxHealth => maxHealth;
         public float CurrentHealth
         {
@@ -30,14 +34,16 @@ namespace VG
                 }
             }
         }
-        
+
         public void Heal(float amount)
         {
             CurrentHealth += amount;
             OnHealthChanged?.Invoke();
             OnHealed?.Invoke();
         }
-        
+
+        public event Action OnDamaged;
+
         public void ApplyDamage(float damage)
         {
             CurrentHealth -= damage;
