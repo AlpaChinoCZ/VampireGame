@@ -9,7 +9,6 @@ namespace VG.UI
     public class HealthUpdate : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI healthText;
-        private float maxHealth;
         
         private void Start()
         {
@@ -26,7 +25,6 @@ namespace VG.UI
         
         public void SetHealthText(float currentHealth, float maxHealth)
         {
-            this.maxHealth = maxHealth;
             healthText.text = $"{currentHealth} / {maxHealth}";
         }
     }

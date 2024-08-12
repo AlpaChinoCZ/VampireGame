@@ -10,6 +10,9 @@ namespace VG
 {
     public class VgGameManager : GameManager
     {
+        public event Action OnUpdateCounter;
+        public event Action<Dictionary<string, int>> OnInitCounter;
+        
         public Dictionary<string, int> KillCounter => killCounter;
         public static VgGameManager Instance
         {
@@ -20,7 +23,7 @@ namespace VG
                     instance = FindObjectOfType<VgGameManager>();
                     if (instance == null)
                     {
-                        instance = new GameObject("GameManagerNew").AddComponent<VgGameManager>();
+                        instance = new GameObject().AddComponent<VgGameManager>();
                     }
                 }
 
@@ -36,22 +39,23 @@ namespace VG
             killCounter.Clear();
             foreach (var enemy in enemies)
             {
-                killCounter.TryAdd(enemy.Info.name, 0);
+                if (!killCounter.ContainsKey(enemy.Info.Name))
+                    killCounter.TryAdd(enemy.Info.Name, 0);
             }
+            OnInitCounter?.Invoke(KillCounter);
         }
 
         public void UpdateCounter(Enemy enemy)
         {
-            KillCounter[enemy.Info.name]++;
+            KillCounter[enemy.Info.Name]++;
+            OnUpdateCounter?.Invoke();
         }
 
         public void OnPlayerDied()
         {
-            
             PlayerController.enabled = false;
             PlayerController.SwitchActionMap(PlayerController.ActionMap.UI);
             OpenLevel((int)SceneType.MainMenu);
-            //Destroy(Player.gameObject);
         }
         
         public void OpenLevel(int index)
@@ -101,7 +105,9 @@ namespace VG
         {
             base.Awake();
             
-            if (instance != null) Destroy(gameObject);
+            if (instance != null && instance != this) Destroy(this);
+            else instance = this; 
+            
             DontDestroyOnLoad(this);
         }
 
