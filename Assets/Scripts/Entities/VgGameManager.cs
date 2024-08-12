@@ -99,6 +99,9 @@ namespace VG
         
         public void QuitGame()
         {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
             Application.Quit();
         }
 
@@ -143,6 +146,9 @@ namespace VG
             }
         }
 
+        /// <summary>
+        /// Find and return spawn point with Player tag
+        /// </summary>
         private SpawnPoint GetPlayerSpawnPoint()
         {
             var points = FindObjectsOfType<SpawnPoint>();
