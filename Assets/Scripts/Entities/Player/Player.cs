@@ -15,7 +15,9 @@ namespace VG
         [SerializeField] private float fireRate = 2f;
         [SerializeField] private BasicFire fireComponent;
         [SerializeField] private MovementController movementController;
+        [Tooltip("Trigger that detects objects in the near distance")]
         [SerializeField] private SphereCollider sphereTrigger;
+        [Tooltip("Layers that will sphereTrigger detect")]
         [SerializeField] private LayerMask nearestObjectLayer;
         
         public BasicFire FireComponent=> fireComponent;
@@ -55,6 +57,10 @@ namespace VG
             nearestObjects.Remove(other.gameObject.transform);
         }
 
+        /// <summary>
+        /// Get nearest object from the list of objects that have already been detected
+        /// </summary>
+        /// <returns></returns>
         public Transform GetNearestObject()
         {
             var currentPosition = transform.position;
@@ -77,6 +83,7 @@ namespace VG
         public void RemoveNearestObject(Transform transform)
         {
             nearestObjects.Remove(transform);
+            nearestObjects.Remove(null);
         }
         
         private void OnEnable()
