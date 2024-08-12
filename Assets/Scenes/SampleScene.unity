@@ -1445,6 +1445,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: _EnemyPoint2
       objectReference: {fileID: 0}
+    - target: {fileID: 5507359754242762445, guid: 949b866ec7930974e84bc679305752fd,
+        type: 3}
+      propertyPath: enemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 7894908532468902109, guid: a35b90dafe9ca3549b63aa0d50f01412,
+        type: 3}
     - target: {fileID: 9052871372969775756, guid: 949b866ec7930974e84bc679305752fd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2423,7 +2429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9641b45ff01ed0b49b011c616e5628b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomSpawnInterval: {x: 2, y: 3.5}
+  randomSpawnInterval: {x: 2, y: 3}
 --- !u!4 &1209707972
 Transform:
   m_ObjectHideFlags: 0
@@ -2451,6 +2457,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1209707972}
     m_Modifications:
+    - target: {fileID: -4600514597437645152, guid: 83dba8f539489c44bbf13823692d22bb,
+        type: 3}
+      propertyPath: enemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 7894908532468902109, guid: a35b90dafe9ca3549b63aa0d50f01412,
+        type: 3}
     - target: {fileID: 3665291008576565172, guid: 83dba8f539489c44bbf13823692d22bb,
         type: 3}
       propertyPath: m_Name
@@ -3055,6 +3067,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: _EnemyPoint2 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5507359754242762445, guid: df548ccc2f668fa4b93dec18926891fc,
+        type: 3}
+      propertyPath: enemies.Array.data[1]
+      value: 
+      objectReference: {fileID: 6991296666357595237, guid: e681e8b456ea78149b502437bbfab120,
+        type: 3}
     - target: {fileID: 9052871372969775756, guid: df548ccc2f668fa4b93dec18926891fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3361,6 +3379,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: _EnemyPoint2 1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5507359754242762445, guid: df548ccc2f668fa4b93dec18926891fc,
+        type: 3}
+      propertyPath: enemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 7894908532468902109, guid: a35b90dafe9ca3549b63aa0d50f01412,
+        type: 3}
     - target: {fileID: 9052871372969775756, guid: df548ccc2f668fa4b93dec18926891fc,
         type: 3}
       propertyPath: m_LocalPosition.x
