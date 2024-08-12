@@ -1,12 +1,13 @@
 using System;
+using UnityEngine.Events;
 
 namespace VG
 {
     public interface IHealth
     {
-        public event Action OnHealthChanged;
-        public event Action OnHealed;
-        public event Action OnDead;
+        public UnityEvent OnHealthChanged { get; }
+        public UnityEvent OnHealed { get; }
+        public UnityEvent OnDead { get; }
         
         public void Heal(float amount);
     }
