@@ -135,6 +135,8 @@ namespace VG
         {
             if (RaycastCameraToMouse(out var hitFireResult, clickableLayers))
             {
+                StopAllCoroutines();
+                isFiring = false;
                 player.FireComponent.Launch(hitFireResult.transform.position);
             }
         }
