@@ -324,7 +324,7 @@ Rigidbody:
   m_GameObject: {fileID: 5759557016320854391}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 5
+  m_Drag: 0
   m_AngularDrag: 10
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   rotationSpeed: 0.15
-  jumpHeight: 1
+  jumpHeight: 2
   groundCheckRayDistance: 0.1
   groundLayerMask:
     serializedVersion: 2
