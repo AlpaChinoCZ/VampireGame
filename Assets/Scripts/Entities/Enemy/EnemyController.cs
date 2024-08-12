@@ -96,7 +96,7 @@ namespace VG
             }
         }
 
-        private bool IsInFireDistance()
+        protected bool IsInFireDistance()
         {
             return Vector3.Distance(transform.position, target.position) <= enemy.Info.StartFireDistance;
         }

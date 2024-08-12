@@ -62,7 +62,10 @@ public class EnemySpawner : MonoBehaviour
 
         return null;
     }
-
+    
+    /// <summary>
+    /// Get random enemy from Spawn Point
+    /// </summary>
     private Enemy GetRandomEnemy(EnemySpawnPoint spawnPoint)
     {
         return spawnPoint.Enemies[Random.Range(0, spawnPoint.Enemies.Length)];

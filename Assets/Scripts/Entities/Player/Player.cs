@@ -44,19 +44,6 @@ namespace VG
             sphereTrigger.isTrigger = true;
         }
         
-        public virtual void OnTriggerEnter(Collider other)
-        {
-            if (nearestObjectLayer.Contains(other.gameObject.layer))
-            {
-                nearestObjects.Add(other.gameObject.transform);
-            }
-        }
-        
-        public virtual void OnTriggerExit(Collider other)
-        {
-            nearestObjects.Remove(other.gameObject.transform);
-        }
-
         /// <summary>
         /// Get nearest object from the list of objects that have already been detected
         /// </summary>
@@ -86,12 +73,25 @@ namespace VG
             nearestObjects.Remove(null);
         }
         
-        private void OnEnable()
+        protected virtual void OnTriggerEnter(Collider other)
+        {
+            if (nearestObjectLayer.Contains(other.gameObject.layer))
+            {
+                nearestObjects.Add(other.gameObject.transform);
+            }
+        }
+        
+        protected virtual void OnTriggerExit(Collider other)
+        {
+            nearestObjects.Remove(other.gameObject.transform);
+        }
+        
+        protected virtual void OnEnable()
         {
             Health.onDead.AddListener(VgGameManager.Instance.OnPlayerDied);
         }
         
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             Health.onDead.RemoveListener(VgGameManager.Instance.OnPlayerDied);
         }
