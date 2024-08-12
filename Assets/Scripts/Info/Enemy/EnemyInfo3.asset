@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Enemy3
   speed: 6
-  fireRate: 3
+  fireRate: 2
   startFireDistance: 25

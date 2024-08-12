@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ProjectileInfo1
   m_EditorClassIdentifier: 
   damage: 15
-  speed: 5
+  speed: 4
   maxLifeTime: 15
