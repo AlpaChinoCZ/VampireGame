@@ -11,7 +11,8 @@ namespace VG
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float currentHealth = 100f;
 
-        public UnityEvent onHealthChanged;
+        public event Action OnDamaged;
+        public UnityEvent onHealthChanged ;
         public UnityEvent onHealed;
         public UnityEvent onDead;
         public UnityEvent OnHealthChanged => onHealthChanged;
@@ -42,7 +43,6 @@ namespace VG
             OnHealed?.Invoke();
         }
 
-        public event Action OnDamaged;
 
         public void ApplyDamage(float damage)
         {

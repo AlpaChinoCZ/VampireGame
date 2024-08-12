@@ -73,6 +73,11 @@ namespace VG
 
             return closesTransform;
         }
+
+        public void RemoveNearestObject(Transform transform)
+        {
+            nearestObjects.Remove(transform);
+        }
         
         private void OnEnable()
         {
