@@ -17,7 +17,7 @@ namespace VG
         
         public Health Health => health;
         
-        public virtual void Awake()
+        protected virtual void Awake()
         {
             health = GetComponent<Health>();
         }

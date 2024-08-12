@@ -28,22 +28,6 @@ namespace VG
         private Rigidbody body;
         private HashSet<Transform> nearestObjects;
 
-        public override void Awake()
-        {
-            base.Awake();
-
-            body = GetComponent<Rigidbody>();
-            movementController = GetComponent<MovementController>();
-            nearestObjects = new HashSet<Transform>();
-             
-            Assert.IsNotNull(sphereTrigger, $"{gameObject} sphere trigger is null");
-            Assert.IsNotNull(MovementController, $"{gameObject} movement component is null");
-            Assert.IsNotNull(fireComponent, $"{gameObject} launch projectile is null");
-            Assert.IsTrue(fireRate > 0, $"{gameObject} Fire Rate must be bigger than 0s");
-            
-            sphereTrigger.isTrigger = true;
-        }
-        
         /// <summary>
         /// Get nearest object from the list of objects that have already been detected
         /// </summary>
@@ -71,6 +55,22 @@ namespace VG
         {
             nearestObjects.Remove(transform);
             nearestObjects.Remove(null);
+        }
+        
+        protected override void Awake()
+        {
+            base.Awake();
+
+            body = GetComponent<Rigidbody>();
+            movementController = GetComponent<MovementController>();
+            nearestObjects = new HashSet<Transform>();
+             
+            Assert.IsNotNull(sphereTrigger, $"{gameObject} sphere trigger is null");
+            Assert.IsNotNull(MovementController, $"{gameObject} movement component is null");
+            Assert.IsNotNull(fireComponent, $"{gameObject} launch projectile is null");
+            Assert.IsTrue(fireRate > 0, $"{gameObject} Fire Rate must be bigger than 0s");
+            
+            sphereTrigger.isTrigger = true;
         }
         
         protected virtual void OnTriggerEnter(Collider other)
