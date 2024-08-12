@@ -30,6 +30,7 @@ namespace VG
                 return instance;
             }
         }
+        
         private Dictionary<string, int> killCounter;
         private static VgGameManager instance;
 
