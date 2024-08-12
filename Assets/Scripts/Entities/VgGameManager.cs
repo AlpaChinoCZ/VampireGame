@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,9 +10,53 @@ namespace VG
 {
     public class VgGameManager : GameManager
     {
+        public Dictionary<string, int> KillCounter => killCounter;
+        public static VgGameManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<VgGameManager>();
+                    if (instance == null)
+                    {
+                        instance = new GameObject("GameManagerNew").AddComponent<VgGameManager>();
+                    }
+                }
+
+                return instance;
+            }
+        }
+        private Dictionary<string, int> killCounter;
+        private static VgGameManager instance;
+
+        public void InitKillCounter(Enemy[] enemies)
+        {
+            killCounter ??= new Dictionary<string, int>();
+            killCounter.Clear();
+            foreach (var enemy in enemies)
+            {
+                killCounter.TryAdd(enemy.Info.name, 0);
+            }
+        }
+
+        public void UpdateCounter(Enemy enemy)
+        {
+            KillCounter[enemy.Info.name]++;
+        }
+
+        public void OnPlayerDied()
+        {
+            
+            PlayerController.enabled = false;
+            PlayerController.SwitchActionMap(PlayerController.ActionMap.UI);
+            OpenLevel((int)SceneType.MainMenu);
+            //Destroy(Player.gameObject);
+        }
+        
         public void OpenLevel(int index)
         {
-            Assert.IsTrue(index <= SceneManager.sceneCountInBuildSettings - 1 && index > 0, $"{gameObject} index is out of Scene count");
+            Assert.IsTrue(index <= (SceneManager.sceneCountInBuildSettings - 1) && index >= 0, $"{gameObject} index is out of Scene count");
             SceneManager.LoadScene(index);
             if (index == (int)SceneType.MainMenu)
             {
@@ -50,6 +95,14 @@ namespace VG
         public void QuitGame()
         {
             Application.Quit();
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            if (instance != null) Destroy(gameObject);
+            DontDestroyOnLoad(this);
         }
 
         private void OnEnable()
