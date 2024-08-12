@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 
 namespace VG
 {
+    /// <summary>
+    /// Singleton GameManager
+    /// </summary>
     public class VgGameManager : GameManager
     {
         public event Action OnUpdateCounter;

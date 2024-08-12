@@ -11,7 +11,9 @@ namespace VG
 {
     public class PlayerController : MonoBehaviour
     {
+        [Tooltip("Left-clickable objects")]
         [SerializeField] private LayerMask clickableLayers;
+        [Tooltip("Layers by which the player rotates")]
         [SerializeField] private LayerMask mouseMovementLayers;
             
         private PlayerInputAction playerInputAction;

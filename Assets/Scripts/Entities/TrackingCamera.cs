@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 namespace VG
 {
     /// <summary>
-    /// Camera which tracking given object
+    /// Camera that tracks the object
     /// </summary>
     public class TrackingCamera : MonoBehaviour
     {

@@ -4,6 +4,10 @@ using UnityEngine.Assertions;
 
 namespace VG
 {
+    /// <summary>
+    /// Abstract GameManager which holds all player important data, functions and components
+    /// It will probably be a singleton that will persist between scenes
+    /// </summary>
     public abstract class GameManager : MonoBehaviour
     {
         [Tooltip("Prefab which will be instantiate")]
@@ -11,6 +15,17 @@ namespace VG
         [Tooltip("Prefab which will be instantiate")]
         [SerializeField] private Player playerSpawnPrefab;
         
+        
+        /// <summary>
+        ///  Player prefab which will be instantiate on spawn
+        /// </summary>
+        public Player PlayerSpawnPrefab => playerSpawnPrefab;
+        /// <summary>
+        ///  PlayerController prefab which will be instantiate on spawn
+        /// </summary>
+        public PlayerController PlayerControllerSpawnPrefab => playerControllerSpawnPrefab;
+        
+        private PlayerController playerController;
         /// <summary>
         ///  PlayerController prefab in scene
         /// </summary>
@@ -19,10 +34,8 @@ namespace VG
             get => playerController;
             protected set => playerController = value;
         }
-        /// <summary>
-        ///  PlayerController prefab which will be instantiate on spawn
-        /// </summary>
-        public PlayerController PlayerControllerSpawnPrefab => playerControllerSpawnPrefab;
+        
+        private Player player;
         /// <summary>
         ///  Player spawned in scene
         /// </summary>
@@ -31,13 +44,6 @@ namespace VG
             get => player;
             protected set => player = value;
         }
-        /// <summary>
-        ///  Player prefab which will be instantiate on spawn
-        /// </summary>
-        public Player PlayerSpawnPrefab => playerSpawnPrefab;
-        
-        private PlayerController playerController;
-        private Player player;
         
         protected virtual void Awake()
         {

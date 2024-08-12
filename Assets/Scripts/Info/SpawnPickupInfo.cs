@@ -6,6 +6,9 @@ using Random = UnityEngine.Random;
 
 namespace VG
 {
+    /// <summary>
+    /// Info that is used when spawning, especially after an event
+    /// </summary>
     [CreateAssetMenu(fileName = "SpawnPickupInfo", menuName = "VG/Info/SpawnPickupInfo")]
     public class SpawnPickupInfo : ScriptableObject
     {

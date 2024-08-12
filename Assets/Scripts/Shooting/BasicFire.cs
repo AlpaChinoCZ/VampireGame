@@ -16,7 +16,7 @@ namespace VG
         public Transform StartPosition => startPosition;
         
         /// <summary>
-        /// Launch projectile from start to end direction
+        /// Launch projectile from start to end (direction)
         /// </summary>
         public GameObject Launch(Vector3 targetPosition)
         {

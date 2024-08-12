@@ -1,10 +1,11 @@
 using System;
+using UnityEngine.Events;
 
 namespace VG
 {
     public interface IDamageable
     {
-        public event Action OnDamaged;
+        UnityEvent OnDamaged { get; }
         void ApplyDamage(float damage);
     }
 }

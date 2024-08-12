@@ -11,6 +11,7 @@ namespace VG
         [SerializeField] private float rotationSpeed = 0.15f;
         [SerializeField] private float jumpHeight = 1f;
         [SerializeField] private float groundCheckRayDistance = 0.1f;
+        [Tooltip("Mask layers to determine if a player is grounded")]
         [SerializeField] private LayerMask groundLayerMask;
 
         private Rigidbody body;
@@ -50,7 +51,6 @@ namespace VG
         {
             lookTarget = target;
         }
-
        
         public bool IsGrounded()
         {
