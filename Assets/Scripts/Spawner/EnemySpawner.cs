@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions;
@@ -15,14 +17,24 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         spawnObjects = FindObjectsOfType<EnemySpawnPoint>();
-        
-        
         if (spawnObjects.Length > 0)
         {
             StartCoroutine(SpawnCoroutine());
+
+            List<Enemy> enemies = new();
+            foreach (var spawnObj in spawnObjects)
+            {
+                enemies.AddRange(spawnObj.Enemies);
+            }
+            
+            VgGameManager.Instance.InitKillCounter(enemies.ToArray());
         }
     }
 
+    /// <summary>
+    /// Spawning of enemies in given interval
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator SpawnCoroutine()
     {
         while (true)
@@ -36,6 +48,9 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawn new enemy at Spawn Point
+    /// </summary>
     private Enemy SpawnEnemy(EnemySpawnPoint spawnPoint)
     {
         NavMeshHit hitResult;
