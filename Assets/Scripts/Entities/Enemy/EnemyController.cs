@@ -39,7 +39,7 @@ namespace VG
 
             if (target == null)
             {
-                var player = GameManager.Instance.Player;
+                var player = VgGameManager.Instance.Player;
                 target = player != null ? player.transform : null;
             }
             
@@ -54,6 +54,8 @@ namespace VG
         
         protected virtual void Update()
         {
+            if (target == null) return;
+            
             transform.SmoothLookAt(target.position, rotationSpeed);
             if (IsInFireDistance() && !isFiring)
             {
@@ -88,6 +90,7 @@ namespace VG
         {
             while (true)
             {
+                
                 navMeshAgent.SetDestination(target.transform.position);
                 yield return waitForCheck;
             }
