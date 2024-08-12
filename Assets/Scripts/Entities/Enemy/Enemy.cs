@@ -14,7 +14,7 @@ namespace VG
         [SerializeField] private EnemyInfo enemyInfo;
         [SerializeField] private BasicFire fireComponent;
         [SerializeField] private EnemyController enemyController;
-
+        
         public EnemyInfo Info => enemyInfo;
         public BasicFire FireComponent => fireComponent;
         public EnemyController EnemyController => enemyController;
@@ -27,8 +27,15 @@ namespace VG
 
             body = GetComponent<Rigidbody>();
             
-            Assert.IsNotNull(enemyInfo, $"{gameObject} have to have Enemy Info");
-            Assert.IsNotNull(fireComponent, $"{gameObject} have to have Fire Component");
+            Assert.IsNotNull(enemyInfo, $"{gameObject} Enemy Info is null");
+            Assert.IsNotNull(fireComponent, $"{gameObject} Fire Component is null");
+        }
+        
+        public void Died()
+        {
+            VgGameManager.Instance.UpdateCounter(this);
+            VgGameManager.Instance.Player.RemoveNearestObject(transform);
+            Destroy(gameObject);
         }
     }
 }
