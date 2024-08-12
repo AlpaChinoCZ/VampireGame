@@ -47,4 +47,4 @@ MonoBehaviour:
   spawnRadius: 3
   color: {r: 1, g: 0.18553454, b: 0.2813541, a: 1}
   enemies:
-  - {fileID: 7894908532468902109, guid: a35b90dafe9ca3549b63aa0d50f01412, type: 3}
+  - {fileID: 6991296666357595237, guid: 7816fe59754128c4bbf493e5da432479, type: 3}

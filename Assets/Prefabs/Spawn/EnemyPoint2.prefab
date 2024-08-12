@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -4600514597437645152, guid: 83dba8f539489c44bbf13823692d22bb,
         type: 3}
       propertyPath: color.b
-      value: 0.06399649
+      value: 0.08213104
       objectReference: {fileID: 0}
     - target: {fileID: -4600514597437645152, guid: 83dba8f539489c44bbf13823692d22bb,
         type: 3}
@@ -21,17 +21,12 @@ PrefabInstance:
     - target: {fileID: -4600514597437645152, guid: 83dba8f539489c44bbf13823692d22bb,
         type: 3}
       propertyPath: color.r
-      value: 0.5471698
-      objectReference: {fileID: 0}
-    - target: {fileID: -4600514597437645152, guid: 83dba8f539489c44bbf13823692d22bb,
-        type: 3}
-      propertyPath: spawnRadius
-      value: 3
+      value: 0.6981132
       objectReference: {fileID: 0}
     - target: {fileID: -4600514597437645152, guid: 83dba8f539489c44bbf13823692d22bb,
         type: 3}
       propertyPath: enemies.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -4600514597437645152, guid: 83dba8f539489c44bbf13823692d22bb,
         type: 3}
@@ -39,16 +34,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6991296666357595237, guid: 7816fe59754128c4bbf493e5da432479,
         type: 3}
-    - target: {fileID: -4600514597437645152, guid: 83dba8f539489c44bbf13823692d22bb,
-        type: 3}
-      propertyPath: enemies.Array.data[2]
-      value: 
-      objectReference: {fileID: 6991296666357595237, guid: e681e8b456ea78149b502437bbfab120,
-        type: 3}
     - target: {fileID: 3665291008576565172, guid: 83dba8f539489c44bbf13823692d22bb,
         type: 3}
       propertyPath: m_Name
-      value: _EnemyPoint2 1
+      value: EnemyPoint2
       objectReference: {fileID: 0}
     - target: {fileID: 8208901388159970017, guid: 83dba8f539489c44bbf13823692d22bb,
         type: 3}
