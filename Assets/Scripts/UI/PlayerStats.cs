@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -56,7 +55,7 @@ namespace VG.UI
             var statsText = "";
             foreach (var item in killCounter)
             {
-                statsText += $"{item.Key} : {item.Value}\n";
+                if(item.Value != 0) statsText += $"{item.Key} : {item.Value}\n";
             }
 
             Text.text = statsText;

@@ -1296,8 +1296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115df6cea2c046adb6b4528364098f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playButtonName: PlayButton
-  quitButtonName: QuitButton
+  playButton: {fileID: 1609982484}
+  quitButton: {fileID: 1256584625}
 --- !u!114 &2127989632 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1231895493867357986, guid: a10404342def36944b20458895bdd643,

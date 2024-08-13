@@ -1,8 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UIElements;
-using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 
 namespace VG.UI
@@ -12,19 +9,16 @@ namespace VG.UI
     /// </summary>
     public class BindMenuHelper : MonoBehaviour
     {
-        [SerializeField] private string playButtonName;
-        [SerializeField] private string quitButtonName;
+        [SerializeField] private Button playButton;
+        [SerializeField] private Button quitButton;
 
         public void Awake()
-        {
-            var play = GameObject.Find(playButtonName)?.GetComponent<Button>();
-            var quit = GameObject.Find(quitButtonName)?.GetComponent<Button>();
-
-            Assert.IsNotNull(play, $"{gameObject} play button is null");
-            Assert.IsNotNull(quit, $"{gameObject} quit button is null");
+        {   
+            Assert.IsNotNull(playButton, $"{gameObject} play button is null");
+            Assert.IsNotNull(playButton, $"{gameObject} quit button is null");
             
-            play.onClick.AddListener(delegate { VgGameManager.Instance.OpenLevel(1); });
-            quit.onClick.AddListener(VgGameManager.Instance.QuitGame);
+            playButton.onClick.AddListener(delegate { VgGameManager.Instance.OpenLevel(1); });
+            quitButton.onClick.AddListener(VgGameManager.Instance.QuitGame);
         }
     }
 }
