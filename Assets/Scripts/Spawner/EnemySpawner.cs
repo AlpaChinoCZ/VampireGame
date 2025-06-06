@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions;
 using VG;
 using Random = UnityEngine.Random;
 
@@ -9,17 +10,21 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Vector2 randomSpawnInterval = new Vector2(2f, 5f);
     
-    private EnemySpawnPoint[] spawnObjects;
+    private EnemySpawnPoint[] enemySpawnPoints;
     
     private void Start()
     {
-        spawnObjects = FindObjectsOfType<EnemySpawnPoint>();
-        if (spawnObjects.Length > 0)
+        // using FindObjectsOfType is okay here. Its called just once at start
+        enemySpawnPoints = FindObjectsOfType<EnemySpawnPoint>();
+        
+        Assert.IsFalse(enemySpawnPoints.Length > 0, "There must be at least one spawn point");
+        
+        if (enemySpawnPoints.Length > 0)
         {
             StartCoroutine(SpawnCoroutine());
 
             List<Enemy> enemies = new();
-            foreach (var spawnObj in spawnObjects)
+            foreach (var spawnObj in enemySpawnPoints)
             {
                 enemies.AddRange(spawnObj.Enemies);
             }
@@ -37,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(randomSpawnInterval.x, randomSpawnInterval.y));
-            var spawnPoint = spawnObjects[Random.Range(0, spawnObjects.Length)];
+            var spawnPoint = enemySpawnPoints[Random.Range(0, enemySpawnPoints.Length)];
             if (spawnPoint != null)
             {
                 SpawnEnemy(spawnPoint);
